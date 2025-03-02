@@ -7,6 +7,19 @@ def get_labels(filename):
   gaze_labels = np.loadtxt(filename, delimiter=',', skiprows=12, usecols=(2, 3))
   return gaze_labels
 
+def convert_labels(filename, x_min=-1, y_min=-1, width=0.5, dim=4):
+  """ Generate classes in a square grid of dim**2 classes from
+  gaze vectors. Class 0 denotes the class with smallest
+  horizontal/vertical gaze angles. """
+  labels = get_labels(filename)
+  pos_labels = np.tan(labels)
+
+  class_x = (pos_labels[:, 0] - x_min) // width
+  class_y = (pos_labels[:, 1] - y_min) // width
+  class_labels = dim * class_y + class_x
+
+  return class_labels
+
 def show_labels_hist(filename, n_bins=20):
   """ Generate a histogram for gaze_x and gaze_y """
   labels = get_labels(filename)
