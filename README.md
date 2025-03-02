@@ -17,7 +17,7 @@ python3 -m venv .venv # The requirments are tested on python 3
 source .venv/bin/activate
 ```
 
-2. Install the required packages, before running this make sure your virtual environment is activated, you should see (.venv) at the beginning of your terminal prompt.
+2. Install the required packages, before running this make sure your virtual environment is activated, you should see `(.venv)` at the beginning of your terminal prompt.
 
 ```bash
 pip install -r requirements.txt
