@@ -1,7 +1,8 @@
 import os
 import pandas as pd
+import torch
 from torch.utils.data import Dataset
-from torchvision.io import read_image, ImageReadMode
+from torchvision.io import decode_image, ImageReadMode
 
 class ImageDataset(Dataset):
   def __init__(self, annotations_file, img_dir, transform=None, target_transform=None):
@@ -16,7 +17,7 @@ class ImageDataset(Dataset):
   def __getitem__(self, idx):
     img_label = self.img_labels.loc[idx]
     img_path = os.path.join(self.img_dir, img_label['imagefile'])
-    img = read_image(img_path, mode=ImageReadMode.GRAY)
+    img = decode_image(img_path, mode=ImageReadMode.GRAY).to(torch.float32)
     label = (img_label['gaze_x'], img_label['gaze_y'])
     if self.transform:
       img = self.transform(img)

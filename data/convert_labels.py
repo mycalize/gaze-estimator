@@ -11,4 +11,4 @@ def convert_labels(label, x_min=-1, x_max=1, y_min=-1, y_max=1, dims=(4,4)):
   class_y = (math.tan(label[1]) - y_min) // y_width
   class_label = dims[1] * class_y + class_x
 
-  return class_label
+  return int(class_label)
