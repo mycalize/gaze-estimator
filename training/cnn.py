@@ -6,9 +6,9 @@ class ConvNet(nn.Module):
     def __init__(self, input_dims):
         super(ConvNet, self).__init__()
         self.h, self.w = input_dims
-        self.m1 = nn.Conv2d(1, 128, 3, padding=1)
-        self.m2 = nn.Conv2d(128, 256, 3, padding=1)
-        self.lin_in_features = 256 * (self.h // 2) * (self.w // 2)
+        self.m1 = nn.Conv2d(1, 8, 3, padding=1)
+        self.m2 = nn.Conv2d(8, 4, 3, padding=1)
+        self.lin_in_features = 4 * (self.h // 2) * (self.w // 2)
         self.m3 = nn.Linear(self.lin_in_features, 16)
 
     def forward(self, x):
