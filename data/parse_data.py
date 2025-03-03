@@ -17,6 +17,7 @@ arg_parser.add_argument('dest_path')
 arg_parser.add_argument('--eye', '-e', default='R')
 arg_parser.add_argument('--limit', '-l', type=int, default=1)
 arg_parser.add_argument('--stride', '-s', type=int, default=20)
+arg_parser.add_argument('--test', '-t', type=int, default=10)
 arg_parser.add_argument('--width', type=int, default=160)
 arg_parser.add_argument('--height', type=int, default=120)
 args = arg_parser.parse_args()
@@ -26,10 +27,11 @@ dest_dir_path = args.dest_path
 eye = args.eye
 limit = args.limit
 stride = args.stride
+test = args.test / 100
 width = args.width
 height = args.height
 
-# Create destination directory
+# Create destination directory and move to it
 os.mkdir(dest_dir_path)
 
 # Read CSV file
@@ -43,20 +45,34 @@ eye_filter = labels_df['eye'] == eye
 limit_filter = (abs(np.tan(labels_df['gaze_x'])) < limit) & (abs(np.tan(labels_df['gaze_y'])) < limit)
 labels_df_filtered = labels_df[eye_filter & limit_filter]
 
-# Subsample by stride
-labels_df_filtered = labels_df_filtered[np.arange(len(labels_df_filtered)) % stride == 0]
+# Split into train and test dataframes
+unique_gazes_df = labels_df_filtered.drop_duplicates(subset=['gaze_x', 'gaze_y'])
+test_gazes_df = unique_gazes_df.sample(frac=test, random_state=1)
+test_gaze_x_filter = labels_df_filtered['gaze_x'].isin(test_gazes_df['gaze_x'])
+test_gaze_y_filter = labels_df_filtered['gaze_y'].isin(test_gazes_df['gaze_y'])
+test_filter = test_gaze_x_filter & test_gaze_y_filter
+train_filter = ~test_filter
+test_labels_df = labels_df_filtered[test_filter]
+train_labels_df = labels_df_filtered[train_filter]
 
-# Parse images
-for i in range(len(labels_df_filtered)):
-  row_idx = labels_df_filtered.index[i]
-  img_filename = labels_df_filtered.loc[row_idx, 'imagefile']
-  src_file_path = os.path.join(src_dir_path, img_filename)
-  dest_file_path = os.path.join(dest_dir_path, img_filename)
-  with Image.open(src_file_path) as im:
-    im_resized = im.resize((width, height), resample=Image.Resampling.NEAREST)
-    im_resized.save(dest_file_path, im_resized.format)
+for category, df in zip(['test', 'train'], [test_labels_df, train_labels_df]):
+  # Create sub-directory
+  os.mkdir(os.path.join(dest_dir_path, category))
 
-# Parse labels
-csv_filename = f'{os.path.basename(dest_dir_path)}.csv'
-dest_csv_file_path = os.path.join(dest_dir_path, csv_filename)
-labels_df_filtered.to_csv(dest_csv_file_path, index=False)
+  # Subsample by stride
+  df_sampled = df[np.arange(len(df)) % stride == 0]
+
+  # Parse images
+  for i in range(len(df_sampled)):
+    row_idx = df_sampled.index[i]
+    img_filename = df_sampled.loc[row_idx, 'imagefile']
+    src_file_path = os.path.join(src_dir_path, img_filename)
+    dest_file_path = os.path.join(dest_dir_path, category, img_filename)
+    with Image.open(src_file_path) as im:
+      im_resized = im.resize((width, height), resample=Image.Resampling.NEAREST)
+      im_resized.save(dest_file_path, im_resized.format)
+
+  # Parse labels
+  csv_filename = f'{os.path.basename(dest_dir_path)}_{category}.csv'
+  dest_csv_file_path = os.path.join(dest_dir_path, category, csv_filename)
+  df_sampled.to_csv(dest_csv_file_path, index=False)
