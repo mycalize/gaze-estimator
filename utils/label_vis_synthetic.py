@@ -3,7 +3,7 @@ import numpy as np
 
 def get_labels(filename):
   """ Load gaze_x and gaze_y from one CSV file """
-  gaze_labels = np.loadtxt(filename, delimiter=',', skiprows=12, usecols=(2, 3))
+  gaze_labels = np.loadtxt(filename, delimiter=',', skiprows=12, usecols=(7, 8))
   return gaze_labels
 
 def show_labels_hist(filename, n_bins=20):

@@ -1,0 +1,35 @@
+import os
+import pandas as pd
+import torch
+from torch.utils.data import Dataset
+from torchvision.io import decode_image, ImageReadMode
+
+class ImageDataset(Dataset):
+  def __init__(self, annotations_file, img_dir, transform=None, target_transform=None):
+    self.img_labels = pd.read_csv(annotations_file)
+    self.img_dir = img_dir
+    self.transform = transform
+    self.target_transform = target_transform
+
+    available_images = set(os.listdir(self.img_dir))
+
+    self.img_labels = self.img_labels[self.img_labels['image_L_0'].isin(available_images)]
+
+
+
+  def __len__(self):
+    return len(self.img_labels)
+  
+  def __getitem__(self, idx):
+    img_label = self.img_labels.loc[idx]
+
+    img_path = os.path.join(self.img_dir, img_label['image_L_0'])
+
+
+    img = decode_image(img_path, mode=ImageReadMode.GRAY).to(torch.float32)
+    label = (img_label['float_gaze_x_rad'], img_label['float_gaze_y_rad'])
+    if self.transform:
+      img = self.transform(img)
+    if self.target_transform:
+      label = self.target_transform(label)
+    return img, label
