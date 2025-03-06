@@ -1,10 +1,10 @@
 import torch.nn as nn
 import torch.nn.functional as F
 
-class ConvNet(nn.Module):
+class CNN(nn.Module):
     # for now: (HW 5) [conv - bn - relu - pool] - [conv - bn - relu] - [aff] - softmax
     def __init__(self, input_dims):
-        super(ConvNet, self).__init__()
+        super(CNN, self).__init__()
         self.h, self.w = input_dims
         self.conv1 = nn.Conv2d(1, 8, 3, padding=1)
         self.conv1_bn = nn.BatchNorm2d(8)
