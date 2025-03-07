@@ -3,7 +3,7 @@ import torch.nn.functional as F
 
 class CNN(nn.Module):
     """ Simple CNN with batchnorm. Layers: [conv - bn - relu - 
-    pool] - [conv - bn - relu] - [aff] - softmax """
+    pool] - [conv - bn - relu] - [aff] """
     def __init__(self, input_dims):
         super(CNN, self).__init__()
         self.h, self.w = input_dims
