@@ -18,6 +18,7 @@ arg_parser.add_argument('--eye', '-e', default='R')
 arg_parser.add_argument('--limit', '-l', type=int, default=1)
 arg_parser.add_argument('--stride', '-s', type=int, default=20)
 arg_parser.add_argument('--test', '-t', type=int, default=10)
+arg_parser.add_argument('--val', '-v', type=int, default=10)
 arg_parser.add_argument('--width', type=int, default=160)
 arg_parser.add_argument('--height', type=int, default=120)
 args = arg_parser.parse_args()
@@ -28,6 +29,7 @@ eye = args.eye
 limit = args.limit
 stride = args.stride
 test = args.test / 100
+val = args.val / 100
 width = args.width
 height = args.height
 
@@ -45,17 +47,30 @@ eye_filter = labels_df['eye'] == eye
 limit_filter = (abs(np.tan(labels_df['gaze_x'])) < limit) & (abs(np.tan(labels_df['gaze_y'])) < limit)
 labels_df_filtered = labels_df[eye_filter & limit_filter]
 
-# Split into train and test dataframes
+# Split into train, val, and test gaze points
 unique_gazes_df = labels_df_filtered.drop_duplicates(subset=['gaze_x', 'gaze_y'])
-test_gazes_df = unique_gazes_df.sample(frac=test, random_state=1)
-test_gaze_x_filter = labels_df_filtered['gaze_x'].isin(test_gazes_df['gaze_x'])
-test_gaze_y_filter = labels_df_filtered['gaze_y'].isin(test_gazes_df['gaze_y'])
-test_filter = test_gaze_x_filter & test_gaze_y_filter
-train_filter = ~test_filter
+test_val_gazes_df = unique_gazes_df.sample(frac=test + val, random_state=1)
+num_test_gazes = int(test * len(unique_gazes_df))
+test_gazes_df = test_val_gazes_df.iloc[:num_test_gazes]
+val_gazes_df = test_val_gazes_df.iloc[num_test_gazes:]
+
+# Split into test dataframe
+test_x_filter = labels_df_filtered['gaze_x'].isin(test_gazes_df['gaze_x'])
+test_y_filter = labels_df_filtered['gaze_y'].isin(test_gazes_df['gaze_y'])
+test_filter = test_x_filter & test_y_filter
 test_labels_df = labels_df_filtered[test_filter]
+
+# Split into val dataframe
+val_x_filter = labels_df_filtered['gaze_x'].isin(val_gazes_df['gaze_x'])
+val_y_filter = labels_df_filtered['gaze_y'].isin(val_gazes_df['gaze_y'])
+val_filter = val_x_filter & val_y_filter
+val_labels_df = labels_df_filtered[val_filter]
+
+# Split into train dataframe
+train_filter = ~(test_filter | val_filter)
 train_labels_df = labels_df_filtered[train_filter]
 
-for category, df in zip(['test', 'train'], [test_labels_df, train_labels_df]):
+for category, df in zip(['test', 'val', 'train'], [test_labels_df, val_labels_df, train_labels_df]):
   # Create sub-directory
   os.mkdir(os.path.join(dest_dir_path, category))
 
