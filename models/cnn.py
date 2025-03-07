@@ -2,7 +2,8 @@ import torch.nn as nn
 import torch.nn.functional as F
 
 class CNN(nn.Module):
-    # for now: (HW 5) [conv - bn - relu - pool] - [conv - bn - relu] - [aff] - softmax
+    """ Simple CNN with batchnorm. Layers: [conv - bn - relu - 
+    pool] - [conv - bn - relu] - [aff] - softmax """
     def __init__(self, input_dims):
         super(CNN, self).__init__()
         self.h, self.w = input_dims
@@ -14,9 +15,9 @@ class CNN(nn.Module):
         self.fc = nn.Linear(self.fc_in_features, 16)
 
     def forward(self, x):
-        z1 = F.relu(self.conv1_bn(self.conv1(x)))
-        h1 = F.max_pool2d(z1, kernel_size=2)
-        h2 = F.relu(self.conv2_bn(self.conv2(h1)))
-        h2 = h2.view(-1, self.fc_in_features)
-        outputs = self.fc(h2)
+        x = F.relu(self.conv1_bn(self.conv1(x)))
+        x = F.max_pool2d(x, kernel_size=2)
+        x = F.relu(self.conv2_bn(self.conv2(x)))
+        x = x.view(-1, self.fc_in_features)
+        outputs = self.fc(x)
         return outputs
