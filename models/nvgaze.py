@@ -20,12 +20,12 @@ class NVGaze(nn.Module):
         self.fc = nn.Linear(self.fc_in_features, out_features)
 
     def forward(self, x):
-        x = F.dropout(F.relu(self.conv1(x)), p=self.p)
-        x = F.dropout(F.relu(self.conv2(x)), p=self.p)
-        x = F.dropout(F.relu(self.conv3(x)), p=self.p)
-        x = F.dropout(F.relu(self.conv4(x)), p=self.p)
-        x = F.dropout(F.relu(self.conv5(x)), p=self.p)
-        # x = F.dropout(F.relu(self.conv6(x)), p=self.p)
+        x = F.dropout2d(F.relu(self.conv1(x)), p=self.p)
+        x = F.dropout2d(F.relu(self.conv2(x)), p=self.p)
+        x = F.dropout2d(F.relu(self.conv3(x)), p=self.p)
+        x = F.dropout2d(F.relu(self.conv4(x)), p=self.p)
+        x = F.dropout2d(F.relu(self.conv5(x)), p=self.p)
+        # x = F.dropout2d(F.relu(self.conv6(x)), p=self.p)
         x = x.view(-1, self.fc_in_features)
         outputs = self.fc(x)
         return outputs
@@ -42,5 +42,4 @@ class NVGaze(nn.Module):
         m = 1
         for i in x.size():
             m *= i
-        print(x.size())
         return m
