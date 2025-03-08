@@ -19,11 +19,12 @@ def train(model, criterion, optimizer, device, train_loader, val_loader, epochs=
             optimizer.step()
             train_loss_history.append(loss.item())
 
-        train_acc = evaluate_acc(model, device, train_loader)
-        valid_acc = evaluate_acc(model, device, val_loader)
-        train_acc_history.append(train_acc)
-        val_acc_history.append(valid_acc)
+        # train_acc = evaluate_acc(model, device, train_loader)
+        # valid_acc = evaluate_acc(model, device, val_loader)
+        # train_acc_history.append(train_acc)
+        # val_acc_history.append(valid_acc)
 
-        print(f"| epoch {epoch:2d} | train acc {train_acc:.6f} | valid acc {valid_acc:.6f} |")
+        # print(f"| epoch {epoch:2d} | train acc {train_acc:.6f} | valid acc {valid_acc:.6f} |")
 
-    return train_loss_history, train_acc_history, val_acc_history
+    return train_loss_history
+    # return train_loss_history, train_acc_history, val_acc_history

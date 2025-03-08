@@ -6,7 +6,7 @@ class NVGaze(nn.Module):
     """ CNN based on NVGaze paper """
     # Note: paper used inputs with resolution 127 x 127
     # [conv - relu - dropout] * 6 - [aff]
-    def __init__(self, input_dims, dropout_param=0.1):
+    def __init__(self, input_dims, dropout_param=0.1, out_features=16):
         super(NVGaze, self).__init__()
         self.h, self.w = input_dims
         self.p = dropout_param
@@ -17,7 +17,7 @@ class NVGaze(nn.Module):
         self.conv5 = nn.Conv2d(27, 40, 3, stride=2)
         # self.conv6 = nn.Conv2d(40, 60, 3, stride=2) # do 1 fewer layer for now b/c of resolution differences
         self.fc_in_features = self.size_fc()
-        self.fc = nn.Linear(self.fc_in_features, 16)
+        self.fc = nn.Linear(self.fc_in_features, out_features)
 
     def forward(self, x):
         x = F.dropout(F.relu(self.conv1(x)), p=self.p)
