@@ -18,7 +18,7 @@ class ImageDataset(Dataset):
     img_label = self.img_labels.loc[idx]
     img_path = os.path.join(self.img_dir, img_label['imagefile'])
     img = decode_image(img_path, mode=ImageReadMode.GRAY).to(torch.float32)
-    label = (img_label['gaze_x'], img_label['gaze_y'])
+    label = torch.tensor([img_label['gaze_x'], img_label['gaze_y']], dtype=torch.float32)
     if self.transform:
       img = self.transform(img)
     if self.target_transform:

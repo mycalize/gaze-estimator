@@ -26,7 +26,7 @@ def train(model, device, mode, criterion, optimizer, train_loader, val_loader, e
     else:
       train_perf = evaluate_acc(model, device, train_loader)
       valid_perf = evaluate_acc(model, device, val_loader)
-      print(f"| Epoch {epoch:2d} | Train acc {train_perf:.6f} | Valid err {valid_perf:.6f} |")
+      print(f"| Epoch {epoch:2d} | Train acc {train_perf:.6f} | Valid acc {valid_perf:.6f} |")
 
     train_perf_history.append(train_perf)
     val_perf_history.append(valid_perf)

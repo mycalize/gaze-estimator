@@ -12,8 +12,8 @@ def evaluate_acc(model, device, dataloader):
 
     outputs = model(batch_X)
 
-    predictions = torch.argmax(outputs, dim=1)
-    total_acc += (predictions.detach() == batch_y).sum()
+    predictions = torch.argmax(outputs.detach(), dim=1)
+    total_acc += (predictions == batch_y).sum()
 
   return total_acc.cpu() / len(dataloader.dataset)
 
