@@ -11,19 +11,23 @@ class NVGaze(nn.Module):
         self.h, self.w = input_dims
         self.p = dropout_param
         self.conv1 = nn.Conv2d(1, 8, 3, stride=2)
+        self.conv1_in = nn.InstanceNorm2d(8, affine=True)
         self.conv2 = nn.Conv2d(8, 12, 3, stride=2)
+        self.conv2_in = nn.InstanceNorm2d(12, affine=True)
         self.conv3 = nn.Conv2d(12, 18, 3, stride=2)
+        self.conv3_in = nn.InstanceNorm2d(18, affine=True)
         self.conv4 = nn.Conv2d(18, 27, 3, stride=2)
+        self.conv4_in = nn.InstanceNorm2d(27, affine=True)
         self.conv5 = nn.Conv2d(27, 40, 3, stride=2)
         # self.conv6 = nn.Conv2d(40, 60, 3, stride=2) # do 1 fewer layer for now b/c of resolution differences
         self.fc_in_features = self.size_fc()
         self.fc = nn.Linear(self.fc_in_features, out_num_features)
 
     def forward(self, x):
-        x = F.dropout2d(F.relu(self.conv1(x)), p=self.p)
-        x = F.dropout2d(F.relu(self.conv2(x)), p=self.p)
-        x = F.dropout2d(F.relu(self.conv3(x)), p=self.p)
-        x = F.dropout2d(F.relu(self.conv4(x)), p=self.p)
+        x = F.dropout2d(self.conv1_in(F.relu(self.conv1(x))), p=self.p)
+        x = F.dropout2d(self.conv2_in(F.relu(self.conv2(x))), p=self.p)
+        x = F.dropout2d(self.conv3_in(F.relu(self.conv3(x))), p=self.p)
+        x = F.dropout2d(self.conv4_in(F.relu(self.conv4(x))), p=self.p)
         x = F.dropout2d(F.relu(self.conv5(x)), p=self.p)
         # x = F.dropout2d(F.relu(self.conv6(x)), p=self.p)
         x = x.view(-1, self.fc_in_features)
