@@ -6,9 +6,72 @@ import pandas as pd
 from PIL import Image
 
 """
-Create a new directory containing:
-- A downsized copy of every `stride` image, filtered by `eye` and `limit`.
-- A corresponding CSV file with the labels.
+Eye Gaze Dataset Preprocessing Script
+
+This script processes raw eye gaze datasets into a standardized format
+for training gaze estimation models.It takes a source directory containing images and a
+CSV file with gaze labels. The script expects aCSV file in the source directory with the 
+following columns:
+
+1. 'imagefile': Filename of the corresponding eye image in the same source directory
+
+2. 'eye': Indicator of which eye the data corresponds to(e.g., 'R' for right eye, 'L' for left eye)
+
+3. 'gaze_x': The horizontal gaze angle in radians
+   - Positive values indicate looking right
+   - Negative values indicate looking left
+
+4. 'gaze_y': The vertical gaze angle in radians
+   - Positive values indicate looking up
+   - Negative values indicate looking down
+
+The CSV file may include a header and can have comment lines starting with '#'.
+
+Example:
+-----------------------------------------
+# Comment
+imagefile,eye,gaze_x,gaze_y
+01.jpg,R,0.2,-0.1
+02.jpg,R,0.3,-0.2
+03.jpg,L,0.25,-0.15
+...
+-----------------------------------------
+
+It creates a new organized dataset with the following structure:
+
+dest_path/
+├── train/
+│   ├── images...
+│   └── [dataset_name]_train.csv
+├── val/
+│   ├── images...
+│   └── [dataset_name]_val.csv
+└── test/
+    ├── images...
+    └── [dataset_name]_test.csv
+
+Key features:
+- Filters data by specified eye (left or right) and gaze angle limits
+- Splits dataset into train/validation/test sets based on unique gaze points (not random images)
+- Subsamples data at specified stride to manage dataset size
+- Resizes all images to consistent dimensions
+- Creates corresponding CSV files with labels for each split
+
+Usage:
+  python parse_data.py src_path dest_path [options]
+
+Arguments:
+  src_path             Source directory containing images and CSV file
+  dest_path            Destination directory for processed dataset
+
+Options:
+  --eye, -e            Eye to use (default: 'R' for right eye)
+  --limit, -l          Limit for filtering: abs(tan(gaze_angle)) < limit (default: 1)
+  --stride, -s         Stride for subsampling images (default: 20)
+  --test, -t           Percentage of data for test set (default: 10%)
+  --val, -v            Percentage of data for validation set (default: 10%)
+  --width              Target image width in pixels (default: 160)
+  --height             Target image height in pixels (default: 120)
 """
 
 arg_parser = argparse.ArgumentParser()
@@ -38,56 +101,65 @@ os.mkdir(dest_dir_path)
 
 # Read CSV file
 csv_files = glob.glob(os.path.join(src_dir_path, '*.csv'))
-if not csv_files: raise FileNotFoundError(f'No CSV files found in {src_dir_path}')
+if not csv_files:
+    raise FileNotFoundError(f'No CSV files found in {src_dir_path}')
 src_csv_file_path = csv_files[0]
 labels_df = pd.read_csv(src_csv_file_path, comment='#')
 
 # Filter by eye and limit
 eye_filter = labels_df['eye'] == eye
-limit_filter = (abs(np.tan(labels_df['gaze_x'])) < limit) & (abs(np.tan(labels_df['gaze_y'])) < limit)
+limit_filter = (abs(np.tan(labels_df['gaze_x'])) < limit) & (
+    abs(np.tan(labels_df['gaze_y'])) < limit)
 labels_df_filtered = labels_df[eye_filter & limit_filter]
 
 # Split into train, val, and test gaze points
-unique_gazes_df = labels_df_filtered.drop_duplicates(subset=['gaze_x', 'gaze_y'])
+unique_gazes_df = labels_df_filtered.drop_duplicates(
+    subset=['gaze_x', 'gaze_y'])
 test_val_gazes_df = unique_gazes_df.sample(frac=test + val, random_state=1)
 num_test_gazes = int(test * len(unique_gazes_df))
 test_gazes_df = test_val_gazes_df.iloc[:num_test_gazes]
 val_gazes_df = test_val_gazes_df.iloc[num_test_gazes:]
 
 # Split into test dataframe
-test_x_filter = labels_df_filtered['gaze_x'].isin(test_gazes_df['gaze_x'])
-test_y_filter = labels_df_filtered['gaze_y'].isin(test_gazes_df['gaze_y'])
-test_filter = test_x_filter & test_y_filter
-test_labels_df = labels_df_filtered[test_filter]
+test_labels_df = pd.merge(
+    labels_df_filtered,
+    test_gazes_df[['gaze_x', 'gaze_y']],
+    on=['gaze_x', 'gaze_y'],
+    how='inner'
+)
 
 # Split into val dataframe
-val_x_filter = labels_df_filtered['gaze_x'].isin(val_gazes_df['gaze_x'])
-val_y_filter = labels_df_filtered['gaze_y'].isin(val_gazes_df['gaze_y'])
-val_filter = val_x_filter & val_y_filter
-val_labels_df = labels_df_filtered[val_filter]
+val_labels_df = pd.merge(
+    labels_df_filtered,
+    val_gazes_df[['gaze_x', 'gaze_y']],
+    on=['gaze_x', 'gaze_y'],
+    how='inner'
+)
 
 # Split into train dataframe
-train_filter = ~(test_filter | val_filter)
+test_val_labels_df = pd.concat([test_labels_df, val_labels_df])
+train_filter = ~(labels_df_filtered['imagefile'].isin(test_val_labels_df['imagefile']))
 train_labels_df = labels_df_filtered[train_filter]
 
 for category, df in zip(['test', 'val', 'train'], [test_labels_df, val_labels_df, train_labels_df]):
-  # Create sub-directory
-  os.mkdir(os.path.join(dest_dir_path, category))
+    # Create sub-directory
+    os.mkdir(os.path.join(dest_dir_path, category))
 
-  # Subsample by stride
-  df_sampled = df[np.arange(len(df)) % stride == 0]
+    # Subsample by stride
+    df_sampled = df[np.arange(len(df)) % stride == 0]
 
-  # Parse images
-  for i in range(len(df_sampled)):
-    row_idx = df_sampled.index[i]
-    img_filename = df_sampled.loc[row_idx, 'imagefile']
-    src_file_path = os.path.join(src_dir_path, img_filename)
-    dest_file_path = os.path.join(dest_dir_path, category, img_filename)
-    with Image.open(src_file_path) as im:
-      im_resized = im.resize((width, height), resample=Image.Resampling.NEAREST)
-      im_resized.save(dest_file_path, im_resized.format)
+    # Parse images
+    for i in range(len(df_sampled)):
+        row_idx = df_sampled.index[i]
+        img_filename = df_sampled.loc[row_idx, 'imagefile']
+        src_file_path = os.path.join(src_dir_path, img_filename)
+        dest_file_path = os.path.join(dest_dir_path, category, img_filename)
+        with Image.open(src_file_path) as im:
+            im_resized = im.resize(
+                (width, height), resample=Image.Resampling.NEAREST)
+            im_resized.save(dest_file_path, im_resized.format)
 
-  # Parse labels
-  csv_filename = f'{os.path.basename(dest_dir_path)}_{category}.csv'
-  dest_csv_file_path = os.path.join(dest_dir_path, category, csv_filename)
-  df_sampled.to_csv(dest_csv_file_path, index=False)
+    # Parse labels
+    csv_filename = f'{os.path.basename(dest_dir_path)}_{category}.csv'
+    dest_csv_file_path = os.path.join(dest_dir_path, category, csv_filename)
+    df_sampled.to_csv(dest_csv_file_path, index=False)

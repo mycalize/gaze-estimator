@@ -1,0 +1,105 @@
+Using device: mps
+| Epoch  1 | Train err 0.420917 | Valid err 0.391736 |
+Current allocated memory (B): 3792128
+| Epoch  2 | Train err 0.384593 | Valid err 0.347550 |
+Current allocated memory (B): 3792128
+| Epoch  3 | Train err 0.366723 | Valid err 0.326339 |
+Current allocated memory (B): 3792128
+| Epoch  4 | Train err 0.327953 | Valid err 0.289479 |
+Current allocated memory (B): 3792128
+| Epoch  5 | Train err 0.317616 | Valid err 0.284328 |
+Current allocated memory (B): 3792128
+| Epoch  6 | Train err 0.305131 | Valid err 0.276632 |
+Current allocated memory (B): 3792128
+| Epoch  7 | Train err 0.292429 | Valid err 0.261850 |
+Current allocated memory (B): 3792128
+| Epoch  8 | Train err 0.298548 | Valid err 0.262441 |
+Current allocated memory (B): 3792128
+| Epoch  9 | Train err 0.281850 | Valid err 0.246694 |
+Current allocated memory (B): 3792128
+| Epoch 10 | Train err 0.283449 | Valid err 0.251781 |
+Current allocated memory (B): 3792128
+| Epoch 11 | Train err 0.268900 | Valid err 0.234941 |
+Current allocated memory (B): 3792128
+| Epoch 12 | Train err 0.266710 | Valid err 0.234893 |
+Current allocated memory (B): 3792128
+| Epoch 13 | Train err 0.260868 | Valid err 0.226506 |
+Current allocated memory (B): 3792128
+| Epoch 14 | Train err 0.266074 | Valid err 0.238438 |
+Current allocated memory (B): 3792128
+| Epoch 15 | Train err 0.251467 | Valid err 0.214677 |
+Current allocated memory (B): 3792128
+| Epoch 16 | Train err 0.252018 | Valid err 0.219060 |
+Current allocated memory (B): 3792128
+| Epoch 17 | Train err 0.247692 | Valid err 0.219772 |
+Current allocated memory (B): 3792128
+| Epoch 18 | Train err 0.244398 | Valid err 0.216499 |
+Current allocated memory (B): 3792128
+| Epoch 19 | Train err 0.241578 | Valid err 0.219519 |
+Current allocated memory (B): 3792128
+| Epoch 20 | Train err 0.239127 | Valid err 0.213556 |
+Current allocated memory (B): 3792128
+| Epoch 21 | Train err 0.234642 | Valid err 0.212232 |
+Current allocated memory (B): 3792128
+| Epoch 22 | Train err 0.233293 | Valid err 0.212175 |
+Current allocated memory (B): 3792128
+| Epoch 23 | Train err 0.223725 | Valid err 0.202777 |
+Current allocated memory (B): 3792128
+| Epoch 24 | Train err 0.222861 | Valid err 0.197329 |
+Current allocated memory (B): 3792128
+| Epoch 25 | Train err 0.220875 | Valid err 0.195203 |
+Current allocated memory (B): 3792128
+| Epoch 26 | Train err 0.213144 | Valid err 0.189384 |
+Current allocated memory (B): 3792128
+| Epoch 27 | Train err 0.217929 | Valid err 0.191360 |
+Current allocated memory (B): 3792128
+| Epoch 28 | Train err 0.210022 | Valid err 0.196678 |
+Current allocated memory (B): 3792128
+| Epoch 29 | Train err 0.201759 | Valid err 0.182245 |
+Current allocated memory (B): 3792128
+| Epoch 30 | Train err 0.210857 | Valid err 0.188624 |
+Current allocated memory (B): 3792128
+| Epoch 31 | Train err 0.195169 | Valid err 0.176386 |
+Current allocated memory (B): 3792128
+| Epoch 32 | Train err 0.197336 | Valid err 0.182343 |
+Current allocated memory (B): 3792128
+| Epoch 33 | Train err 0.206205 | Valid err 0.187719 |
+Current allocated memory (B): 3792128
+| Epoch 34 | Train err 0.177191 | Valid err 0.170548 |
+Current allocated memory (B): 3792128
+| Epoch 35 | Train err 0.196414 | Valid err 0.171230 |
+Current allocated memory (B): 3792128
+| Epoch 36 | Train err 0.174021 | Valid err 0.171827 |
+Current allocated memory (B): 3792128
+| Epoch 37 | Train err 0.186316 | Valid err 0.175219 |
+Current allocated memory (B): 3792128
+| Epoch 38 | Train err 0.168171 | Valid err 0.172174 |
+Current allocated memory (B): 3792128
+| Epoch 39 | Train err 0.189515 | Valid err 0.176690 |
+Current allocated memory (B): 3792128
+| Epoch 40 | Train err 0.172439 | Valid err 0.177950 |
+Current allocated memory (B): 3792128
+| Epoch 41 | Train err 0.190916 | Valid err 0.180996 |
+Current allocated memory (B): 3792128
+| Epoch 42 | Train err 0.170675 | Valid err 0.174257 |
+Current allocated memory (B): 3792128
+| Epoch 43 | Train err 0.186553 | Valid err 0.180174 |
+Current allocated memory (B): 3792128
+| Epoch 44 | Train err 0.165940 | Valid err 0.173447 |
+Current allocated memory (B): 3792128
+| Epoch 45 | Train err 0.167090 | Valid err 0.159903 |
+Current allocated memory (B): 3792128
+| Epoch 46 | Train err 0.165852 | Valid err 0.166166 |
+Current allocated memory (B): 3792128
+| Epoch 47 | Train err 0.170473 | Valid err 0.160676 |
+Current allocated memory (B): 3792128
+| Epoch 48 | Train err 0.167080 | Valid err 0.166591 |
+Current allocated memory (B): 3792128
+| Epoch 49 | Train err 0.173675 | Valid err 0.159645 |
+Current allocated memory (B): 3792128
+| Epoch 50 | Train err 0.173859 | Valid err 0.165357 |
+Current allocated memory (B): 3792128
+
+Train err: 0.173646 (9.95°)
+Val err:   0.165447 (9.48°)
+Test err:  0.163544 (9.37°)
