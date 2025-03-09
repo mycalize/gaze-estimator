@@ -19,7 +19,7 @@ class NVGaze(nn.Module):
         self.conv4 = nn.Conv2d(18, 27, 3, stride=2)
         self.conv4_in = nn.InstanceNorm2d(27, affine=True)
         self.conv5 = nn.Conv2d(27, 40, 3, stride=2)
-        # self.conv6 = nn.Conv2d(40, 60, 3, stride=2) # do 1 fewer layer for now b/c of resolution differences
+        self.conv6 = nn.Conv2d(40, 60, 3, stride=2)
         self.fc_in_features = self.size_fc()
         self.fc = nn.Linear(self.fc_in_features, out_num_features)
 
@@ -29,7 +29,7 @@ class NVGaze(nn.Module):
         x = F.dropout2d(self.conv3_in(F.relu(self.conv3(x))), p=self.p)
         x = F.dropout2d(self.conv4_in(F.relu(self.conv4(x))), p=self.p)
         x = F.dropout2d(F.relu(self.conv5(x)), p=self.p)
-        # x = F.dropout2d(F.relu(self.conv6(x)), p=self.p)
+        x = F.dropout2d(F.relu(self.conv6(x)), p=self.p)
         x = x.view(-1, self.fc_in_features)
         outputs = self.fc(x)
         return outputs
@@ -41,7 +41,7 @@ class NVGaze(nn.Module):
         x = self.conv3(x)
         x = self.conv4(x)
         x = self.conv5(x)
-        # x = self.conv6(x)
+        x = self.conv6(x)
 
         m = 1
         for i in x.size():
