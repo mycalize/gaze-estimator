@@ -70,8 +70,8 @@ Options:
   --stride, -s         Stride for subsampling images (default: 20)
   --test, -t           Percentage of data for test set (default: 10%)
   --val, -v            Percentage of data for validation set (default: 10%)
-  --crop               Crop image into square, if set, only accepts the height option
-  --width              Target image width in pixels (default: 120)
+  --crop               Crop image into square, if set, only accepts the height option (default: False)
+  --width              Target image width in pixels (default: 160)
   --height             Target image height in pixels (default: 120)
 """
 
@@ -83,8 +83,8 @@ arg_parser.add_argument('--limit', '-l', type=int, default=-1)
 arg_parser.add_argument('--stride', '-s', type=int, default=20)
 arg_parser.add_argument('--test', '-t', type=int, default=10)
 arg_parser.add_argument('--val', '-v', type=int, default=10)
-arg_parser.add_argument('--crop', type=bool, default=True)
-arg_parser.add_argument('--width', type=int, default=120)
+arg_parser.add_argument('--crop', type=bool, default=False)
+arg_parser.add_argument('--width', type=int, default=160)
 arg_parser.add_argument('--height', type=int, default=120)
 args = arg_parser.parse_args()
 

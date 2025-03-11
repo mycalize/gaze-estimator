@@ -21,15 +21,17 @@ def train(model, device, mode, criterion, optimizer, train_loader, val_loader, e
 
     if mode == 'reg':
       train_perf = evaluate_error(model, device, train_loader)
-      valid_perf = evaluate_error(model, device, val_loader)
-      print(f"| Epoch {epoch:2d} | Train err {train_perf:.6f} | Val err {valid_perf:.6f} |")
+      val_perf = evaluate_error(model, device, val_loader)
+      train_perf_deg = torch.rad2deg(train_perf)
+      val_perf_deg = torch.rad2deg(val_perf)
+      print(f"| Epoch {epoch:3d} | Train err {train_perf:.6f} ({train_perf_deg:.2f}°) | Val err {val_perf:.6f} ({val_perf_deg:.2f}°) |")
     else:
       train_perf = evaluate_acc(model, device, train_loader)
-      valid_perf = evaluate_acc(model, device, val_loader)
-      print(f"| Epoch {epoch:2d} | Train acc {train_perf:.6f} | Val acc {valid_perf:.6f} |")
+      val_perf = evaluate_acc(model, device, val_loader)
+      print(f"| Epoch {epoch:3d} | Train acc {train_perf:.6f} | Val acc {val_perf:.6f} |")
 
     train_perf_history.append(train_perf)
-    val_perf_history.append(valid_perf)
+    val_perf_history.append(val_perf)
 
     if verbose:
       print(f'Current allocated memory (B): {torch.mps.current_allocated_memory()}')

@@ -10,7 +10,7 @@ class NVGaze(nn.Module):
         super(NVGaze, self).__init__()
         self.h, self.w = input_dims
         self.p = dropout_param
-        self.conv1 = nn.Conv2d(1, 8, 3, stride=2)
+        self.conv1 = nn.Conv2d(2, 8, 3, stride=2)
         self.conv1_in = nn.InstanceNorm2d(8, affine=True)
         self.conv2 = nn.Conv2d(8, 12, 3, stride=2)
         self.conv2_in = nn.InstanceNorm2d(12, affine=True)
@@ -19,7 +19,7 @@ class NVGaze(nn.Module):
         self.conv4 = nn.Conv2d(18, 27, 3, stride=2)
         self.conv4_in = nn.InstanceNorm2d(27, affine=True)
         self.conv5 = nn.Conv2d(27, 40, 3, stride=2)
-        self.conv6 = nn.Conv2d(40, 60, 3, stride=2)
+        # self.conv6 = nn.Conv2d(40, 60, 3, stride=2)
         self.fc_in_features = self.size_fc()
         self.fc = nn.Linear(self.fc_in_features, out_num_features)
 
@@ -29,21 +29,18 @@ class NVGaze(nn.Module):
         x = F.dropout2d(self.conv3_in(F.relu(self.conv3(x))), p=self.p)
         x = F.dropout2d(self.conv4_in(F.relu(self.conv4(x))), p=self.p)
         x = F.dropout2d(F.relu(self.conv5(x)), p=self.p)
-        x = F.dropout2d(F.relu(self.conv6(x)), p=self.p)
+        # x = F.dropout2d(F.relu(self.conv6(x)), p=self.p)
         x = x.view(-1, self.fc_in_features)
         outputs = self.fc(x)
         return outputs
     
     def size_fc(self):
-        x = torch.zeros(1, 1, self.h, self.w)
+        x = torch.zeros(1, 2, self.h, self.w)
         x = self.conv1(x)
         x = self.conv2(x)
         x = self.conv3(x)
         x = self.conv4(x)
         x = self.conv5(x)
-        x = self.conv6(x)
+        # x = self.conv6(x)
 
-        m = 1
-        for i in x.size():
-            m *= i
-        return m
+        return torch.numel(x)

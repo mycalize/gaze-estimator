@@ -1,3 +1,7 @@
+Train err: 0.173646 (9.95°)
+Val err:   0.165447 (9.48°)
+Test err:  0.163544 (9.37°)
+
 Using device: mps
 | Epoch  1 | Train err 0.420917 | Valid err 0.391736 |
 Current allocated memory (B): 3792128
@@ -99,7 +103,3 @@ Current allocated memory (B): 3792128
 Current allocated memory (B): 3792128
 | Epoch 50 | Train err 0.173859 | Valid err 0.165357 |
 Current allocated memory (B): 3792128
-
-Train err: 0.173646 (9.95°)
-Val err:   0.165447 (9.48°)
-Test err:  0.163544 (9.37°)
