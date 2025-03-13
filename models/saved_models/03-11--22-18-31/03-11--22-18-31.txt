@@ -1,0 +1,25 @@
+Train err: 0.137235 (7.86°)
+Val err:   0.140256 (8.04°)
+Test err:  0.147123 (8.43°)
+
+Adam w/ lr = 1e-4:
+| Epoch   1 | Train err 0.724382 (41.50°) | Val err 0.786940 (45.09°) |
+| Epoch   2 | Train err 1.212437 (69.47°) | Val err 0.890419 (51.02°) |
+| Epoch   3 | Train err 0.482021 (27.62°) | Val err 0.417542 (23.92°) |
+| Epoch   4 | Train err 0.127772 (7.32°) | Val err 0.195338 (11.19°) |
+| Epoch   5 | Train err 0.049165 (2.82°) | Val err 0.071763 (4.11°) |
+| Epoch   6 | Train err 0.118239 (6.77°) | Val err 0.191585 (10.98°) |
+| Epoch   7 | Train err 0.205382 (11.77°) | Val err 0.219470 (12.57°) |
+| Epoch   8 | Train err 0.050247 (2.88°) | Val err 0.080187 (4.59°) |
+| Epoch   9 | Train err 0.102533 (5.87°) | Val err 0.153075 (8.77°) |
+| Epoch  10 | Train err 0.121196 (6.94°) | Val err 0.180179 (10.32°) |
+| Epoch  11 | Train err 0.298714 (17.12°) | Val err 0.273094 (15.65°) |
+| Epoch  12 | Train err 0.061612 (3.53°) | Val err 0.112481 (6.44°) |
+| Epoch  13 | Train err 0.158675 (9.09°) | Val err 0.152599 (8.74°) |
+| Epoch  14 | Train err 0.233129 (13.36°) | Val err 0.264971 (15.18°) |
+| Epoch  15 | Train err 0.119213 (6.83°) | Val err 0.164572 (9.43°) |
+| Epoch  16 | Train err 0.219026 (12.55°) | Val err 0.272548 (15.62°) |
+| Epoch  17 | Train err 0.098842 (5.66°) | Val err 0.125243 (7.18°) |
+| Epoch  18 | Train err 0.231839 (13.28°) | Val err 0.223794 (12.82°) |
+| Epoch  19 | Train err 0.144531 (8.28°) | Val err 0.193056 (11.06°) |
+| Epoch  20 | Train err 0.137235 (7.86°) | Val err 0.140256 (8.04°) |

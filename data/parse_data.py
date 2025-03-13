@@ -158,7 +158,7 @@ for category, df in zip(['test', 'val', 'train'], [test_labels_df, val_labels_df
         img_filename = df_sampled.loc[row_idx, 'imagefile']
         src_file_path = os.path.join(src_dir_path, img_filename)
         dest_file_path = os.path.join(dest_dir_path, category, img_filename)
-        with Image.open(src_file_path) as im:
+        with Image.open(src_file_path).convert('L') as im:
             if crop:
                 old_width, old_height = im.size
                 crop_width = min(old_width, old_height)

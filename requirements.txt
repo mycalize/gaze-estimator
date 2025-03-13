@@ -33,8 +33,10 @@ prompt_toolkit==3.0.50
 psutil==7.0.0
 ptyprocess==0.7.0
 pure_eval==0.2.3
+pygame==2.6.1
 Pygments==2.19.1
 pyparsing==3.2.1
+pyserial==3.5
 python-dateutil==2.9.0.post0
 pytz==2025.1
 pyzmq==26.2.1

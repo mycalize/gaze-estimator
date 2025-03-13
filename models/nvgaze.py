@@ -6,11 +6,11 @@ class NVGaze(nn.Module):
     """ CNN based on NVGaze paper """
     # Note: paper used inputs with resolution 127 x 127
     # [conv - relu - dropout] * 6 - [aff]
-    def __init__(self, input_dims, dropout_param=0.1, out_num_features=2):
+    def __init__(self, input_dims, out_num_features=2, dropout_param=0.1):
         super(NVGaze, self).__init__()
         self.h, self.w = input_dims
         self.p = dropout_param
-        self.conv1 = nn.Conv2d(2, 8, 3, stride=2)
+        self.conv1 = nn.Conv2d(1, 8, 3, stride=2)
         self.conv1_in = nn.InstanceNorm2d(8, affine=True)
         self.conv2 = nn.Conv2d(8, 12, 3, stride=2)
         self.conv2_in = nn.InstanceNorm2d(12, affine=True)
@@ -35,7 +35,7 @@ class NVGaze(nn.Module):
         return outputs
     
     def size_fc(self):
-        x = torch.zeros(1, 2, self.h, self.w)
+        x = torch.zeros(1, 1, self.h, self.w)
         x = self.conv1(x)
         x = self.conv2(x)
         x = self.conv3(x)
