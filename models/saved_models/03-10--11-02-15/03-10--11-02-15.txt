@@ -1,0 +1,63 @@
+Train err: 0.038711 (2.22°)
+Val err:   0.055322 (3.17°)
+Test err:  0.059422 (3.40°)
+
+INCOMPLETE TRAINING HISTORY
+
+51 epochs of Adam w/ lr = 1e-3:
+| Epoch  1 | Train err 0.122743 | Val err 0.135615 |
+
+50 epochs of Adam w/ lr = 1e-4:
+MISSING
+
+50 epochs of Adam w/ lr = 1e-5:
+| Epoch  1 | Train err 0.039415 | Val err 0.057491 |
+| Epoch  2 | Train err 0.038524 | Val err 0.057202 |
+| Epoch  3 | Train err 0.038463 | Val err 0.054635 |
+| Epoch  4 | Train err 0.039474 | Val err 0.055846 |
+| Epoch  5 | Train err 0.038987 | Val err 0.055848 |
+| Epoch  6 | Train err 0.038208 | Val err 0.056467 |
+| Epoch  7 | Train err 0.038624 | Val err 0.055602 |
+| Epoch  8 | Train err 0.038911 | Val err 0.055727 |
+| Epoch  9 | Train err 0.039123 | Val err 0.056124 |
+| Epoch 10 | Train err 0.039531 | Val err 0.055332 |
+| Epoch 11 | Train err 0.038426 | Val err 0.057207 |
+| Epoch 12 | Train err 0.038867 | Val err 0.055442 |
+| Epoch 13 | Train err 0.038083 | Val err 0.056581 |
+| Epoch 14 | Train err 0.039351 | Val err 0.056140 |
+| Epoch 15 | Train err 0.038887 | Val err 0.056346 |
+| Epoch 16 | Train err 0.038323 | Val err 0.056808 |
+| Epoch 17 | Train err 0.038490 | Val err 0.053607 |
+| Epoch 18 | Train err 0.038985 | Val err 0.058384 |
+| Epoch 19 | Train err 0.038272 | Val err 0.054695 |
+| Epoch 20 | Train err 0.038380 | Val err 0.056947 |
+| Epoch 21 | Train err 0.038887 | Val err 0.055303 |
+| Epoch 22 | Train err nan | Val err 0.055889 |
+| Epoch 23 | Train err 0.038118 | Val err 0.055566 |
+| Epoch 24 | Train err 0.038868 | Val err 0.055480 |
+| Epoch 25 | Train err 0.038425 | Val err 0.054796 |
+| Epoch 26 | Train err 0.039490 | Val err 0.055248 |
+| Epoch 27 | Train err 0.038836 | Val err 0.054867 |
+| Epoch 28 | Train err 0.038495 | Val err 0.056511 |
+| Epoch 29 | Train err 0.038730 | Val err 0.056409 |
+| Epoch 30 | Train err 0.039026 | Val err 0.055196 |
+| Epoch 31 | Train err 0.038132 | Val err 0.055611 |
+| Epoch 32 | Train err 0.038876 | Val err 0.055100 |
+| Epoch 33 | Train err 0.038155 | Val err 0.055377 |
+| Epoch 34 | Train err 0.038939 | Val err 0.055267 |
+| Epoch 35 | Train err 0.038549 | Val err 0.056115 |
+| Epoch 36 | Train err 0.038626 | Val err 0.055750 |
+| Epoch 37 | Train err 0.039185 | Val err 0.055335 |
+| Epoch 38 | Train err 0.038718 | Val err 0.055867 |
+| Epoch 39 | Train err 0.039133 | Val err 0.054714 |
+| Epoch 40 | Train err 0.038444 | Val err 0.056005 |
+| Epoch 41 | Train err 0.038893 | Val err 0.054820 |
+| Epoch 42 | Train err 0.038411 | Val err 0.056160 |
+| Epoch 43 | Train err 0.038572 | Val err 0.057283 |
+| Epoch 44 | Train err 0.038239 | Val err 0.055594 |
+| Epoch 45 | Train err 0.038033 | Val err 0.055496 |
+| Epoch 46 | Train err 0.038873 | Val err 0.056532 |
+| Epoch 47 | Train err 0.038254 | Val err 0.053915 |
+| Epoch 48 | Train err 0.038183 | Val err 0.056218 |
+| Epoch 49 | Train err 0.038072 | Val err 0.056045 |
+| Epoch 50 | Train err 0.038795 | Val err 0.055000 |
