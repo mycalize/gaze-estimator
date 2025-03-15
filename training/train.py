@@ -1,6 +1,6 @@
 from training.eval import *
 
-def train(model, device, mode, criterion, optimizer, train_loader, val_loader, epochs=10, verbose=False):
+def train(model, device, mode, criterion, scheduler, train_loader, val_loader, epochs=10, verbose=False):
   train_loss_history = []
   train_perf_history = []
   val_perf_history = []
@@ -12,11 +12,11 @@ def train(model, device, mode, criterion, optimizer, train_loader, val_loader, e
       batch_X = batch_X.to(device)
       batch_y = batch_y.to(device)
 
-      optimizer.zero_grad()
+      scheduler.zero_grad()
       outputs = model(batch_X)
       loss = criterion(outputs, batch_y)
       loss.backward()
-      optimizer.step()
+      scheduler.step()
       train_loss_history.append(loss.item())
 
     if mode == 'reg':

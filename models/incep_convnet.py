@@ -16,8 +16,8 @@ class IncepConvNet(nn.Module):
     self.incep3a = InceptionA(192)
     self.incep3b = InceptionA(192)
 
-    self.incep4a = InceptionB(192)
-    self.incep4b = InceptionB(304)
+    # self.incep4a = InceptionB(192)
+    # self.incep4b = InceptionB(304)
 
     self.fc_in_features = self.__size_fc(c, h, w)
     self.fc = nn.Linear(self.fc_in_features, out_num_features)
@@ -28,9 +28,9 @@ class IncepConvNet(nn.Module):
     x = self.conv2b(x)
     x = self.incep3a(x)
     x = self.incep3b(x)
-    x = F.max_pool2d(x, kernel_size=3, stride=2)
-    x = self.incep4a(x)
-    x = self.incep4b(x)
+    # x = F.max_pool2d(x, kernel_size=3, stride=2)
+    # x = self.incep4a(x)
+    # x = self.incep4b(x)
     x = F.dropout2d(x, p=self.p, inplace=True)
     x = torch.flatten(x, start_dim=1)
     output = self.fc(x)
@@ -43,9 +43,9 @@ class IncepConvNet(nn.Module):
     x = self.conv2b(x)
     x = self.incep3a(x)
     x = self.incep3b(x)
-    x = F.max_pool2d(x, kernel_size=3, stride=2)
-    x = self.incep4a(x)
-    x = self.incep4b(x)
+    # x = F.max_pool2d(x, kernel_size=3, stride=2)
+    # x = self.incep4a(x)
+    # x = self.incep4b(x)
     return torch.numel(x)
 
 class InceptionA(nn.Module):

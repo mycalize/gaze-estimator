@@ -29,7 +29,7 @@ def show_labels_hist(labels, title, n_bins=20, x_label='gaze_x', y_label='gaze_y
   ax2_stats = f'mean = {mean_y:.4f}\nstd = {std_y:.4f}\nmin = {min_y:.4f}\nmax = {max_y:.4f}'
   ax2.text(0.05, 0.95, ax2_stats, transform=ax2.transAxes, va='top')
 
-  plt.title(title)
+  # plt.title(title)
   plt.show()
 
   return min_x, min_y, max_x, max_y
